@@ -326,7 +326,8 @@ input[data-error]::after {
   transform: rotate(-45deg);
 }
 .btn-submit,
-.btn-signup {
+.btn-signup,
+.btn-close {
   background: #fe142f;
   display: block;
   margin: 0 auto;
@@ -337,6 +338,31 @@ input[data-error]::after {
   cursor: pointer;
   border: 0;
 }
+
+/* Validation Modal*/
+.valid-modal{
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  background-color: rgba(26, 39, 156, 0.4);
+}
+.valid-modal .content {
+  width: 536px;
+  height: 930px;
+}
+.valid-modal .content p {
+  display: flex;
+  align-items: center;
+  height: calc(92%);
+  font-size: 36px;
+  text-align: center;
+}
+
 /* custom select styles */
 .custom-select {
   position: relative;
@@ -482,11 +508,31 @@ footer {
   padding-right: 2vw;
   margin: 0 20px;
 }
+
+@media screen and (max-width: 540px) {
+  .topnav a {display: none;}
+  .topnav a.icon {
+    float: right;
+    display: block;
+    margin-top: -15px;
+  }
+  .valid-modal .content {
+    width: auto;
+    height: 100%;
+    font-size: 1.5rem;
+  }
+} 
+
 @media screen and (max-width: 800px) {
   .hero-section {
     display: block;
     box-shadow: unset;
   }
+
+  .valid-modal {
+    background-color: #232323;
+  }
+
   .hero-content {
     background: #fff;
     color: #000;

@@ -20,6 +20,11 @@ function editNav() {
   const Check = document.querySelectorAll('input[name="location"]');
   const Condition = document.getElementById("checkbox1");
 
+  const validationModal = document.querySelector(".validation-modal");
+  const closeValidationModal = document.querySelector(".btn-close");
+  const closeValidBtn = document.querySelector(".valid-close");
+
+
 //messages d'erreur
   const nameError = "Veuillez entrer au moins 2 caractères alphabétiques pour votre nom.";
   const surnameError = "Veuillez entrer au moins 2 caractères alphabétiques pour votre prénom.";
@@ -55,7 +60,26 @@ function closemodal() {
   modalbg.style.display = "none";
 }
 
-
+//clear field
+function clearField (element) {
+  element.valid = false;
+  element.value = '';
+}
+ 
+// clear form 
+function clearForm () {
+  clearField(Name);
+  clearField(Surname);
+  clearField(Email);
+  clearField(Birth);
+  clearField(Tournament);
+  Check.valid = false;
+  document.querySelectorAll("input[name='location']:checked")[0].checked = false;
+  formContent.style.display="block";
+  modalSuccess.style.display="none";
+  closemodal();
+}
+ 
 //fonction pour afficher les message d'erreur
 function inputError(text, el, display) {
   document.querySelector(`.${el}`).style.display = "block";
@@ -110,8 +134,7 @@ Name.addEventListener("input", function () {
 
 //vérification de l'email
   Email.addEventListener("input", function (e) {
-    //vérification active seulent après que l'utilisateur ai cliqué sur un autre champ
-    if (!(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/.test(e.target.value)) || e.target.value === '') {
+   if (!(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/.test(e.target.value)) || e.target.value === '') {
       errorBorder(Email);
       inputError(emailError, "error-email", "block");
       Email.Valid = false;
@@ -155,7 +178,7 @@ Name.addEventListener("input", function () {
     }
   });
 
-//vérification du choix de ville 
+//vérification du choix de ville (affichage d'erreur seulement à la confirmation du modal)
   for (let i = 0; i < Check.length; i++) {
     //écoute des changements de statut 
     Check[i].addEventListener("change", () => {
@@ -184,5 +207,59 @@ Name.addEventListener("input", function () {
   });
 
 
-
-
+  modalbg.addEventListener("submit", validate);
+  function validate(e) {
+    //vérification des variables
+    if (
+      Name.Valid &&
+      Surname.Valid &&
+      Email.Valid &&
+      Birth.Valid &&
+      Tournament.Valid &&
+      Check.Valid &&
+      Condition.Valid
+    ) {
+      e.preventDefault();
+      //ouverture du modal de confirmation
+      closemodal();
+      validationModal.style.display = "block";
+      closeValidationModal.addEventListener("click", function (e){
+        validationModal.style.display = "none";
+        closemodal();
+      });
+      closeValidBtn.addEventListener("click", function (e){
+        validationModal.style.display = "none";
+        closemodal();
+      });
+    }
+    //si il y à erreur, affichage de messages d'erreur
+    else {
+      e.preventDefault();
+      if (!Name.Valid) {
+        errorBorder(Name);
+        inputError(nameError, "error-first", "block");
+      }
+      if (!Surname.Valid) {
+        errorBorder(Surname);
+        inputError(surnameError, "error-last", "block");
+      }
+      if (!Email.Valid) {
+        errorBorder(Email);
+        inputError(emailError, "error-mail", "block");
+      }
+      if (!Birth.Valid) {
+        errorBorder(Birth);
+        inputError(dateError, "error-birth", "block");
+      }
+      if (!Tournament.Valid) {
+        errorBorder(Tournament);
+        inputError(tournamentError, "error-tournament", "block");
+      }
+      if (!Check.Valid) {
+        inputError(checkError, "error-check", "block");
+      }    
+      if (!Condition.Valid) {
+        inputError(conditionError, "error-condition", "block");
+      }
+    }
+  }
