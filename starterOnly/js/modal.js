@@ -39,18 +39,18 @@ function editNav() {
   Condition.Valid = true;
 
 
-// launch modal event
+// event d'ouverture de modal
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
-// close modal event
+// event de fermeture de modal
 modalClose.forEach((btn) => btn.addEventListener("click", closemodal));
 
-// launch modal form
+//fonction d'ouverture de modal
 function launchModal() {
   modalbg.style.display = "block";
 }
 
-// close modal form
+//fonction de fermeture de modal
 function closemodal() {
   modalbg.style.display = "none";
 }
@@ -122,15 +122,15 @@ Name.addEventListener("input", function () {
     }
   });
 
-
+//vérification de la date de naissance
   Birth.addEventListener("change", function (e) {
-    //get the actual date
+    //obtention de la date d'aujourd'hui et la date entrée
     let now = new Date();
     let date = e.target.value;
-    //parse the two date (get the date but in seconds)
+    //on les convertis en objet js
     let nowParse = Date.parse(now);
     let dateParse = Date.parse(e.target.value);
-    //if date is empty or user input date is superior than the actual date
+    //si la date est elle d'aujourd'hui ou plus, non valide
     if (date == null || dateParse > nowParse) {
       errorBorder(Birth);
       inputError(dateError, "error-birth", "block");
@@ -155,11 +155,11 @@ Name.addEventListener("input", function () {
     }
   });
 
-
+//vérification du choix de ville 
   for (let i = 0; i < Check.length; i++) {
-    //listen to every change to the checkbox
+    //écoute des changements de statut 
     Check[i].addEventListener("change", () => {
-      //if any is checked than pass true to global variables
+      //si un choix est coché, la valeur devient vraie
       if (Check[i].checked == true) {
         Check.Valid = true;
         noInputError(checkError, "error-check", "none");
