@@ -8,10 +8,36 @@ function editNav() {
 }
 
 // DOM Elements
-const modalbg = document.querySelector(".bground");
-const modalBtn = document.querySelectorAll(".modal-btn");
-const formData = document.querySelectorAll(".formData");
-const modalClose = document.querySelectorAll(".close");
+  const modalbg = document.querySelector(".bground");
+  const modalBtn = document.querySelectorAll(".modal-btn");
+  const formData = document.querySelectorAll(".formData");
+  const modalClose = document.querySelectorAll(".close");
+  const Name = document.getElementById("first");
+  const Surname = document.getElementById("last");
+  const Email = document.getElementById("email");
+  const Birth = document.getElementById("birthdate");
+  const Tournament = document.getElementById("quantity");
+  const Check = document.querySelectorAll('input[name="location"]');
+  const Condition = document.getElementById("checkbox1");
+
+//messages d'erreur
+  const nameError = "Veuillez entrer au moins 2 caractères alphabétiques pour votre nom.";
+  const surnameError = "Veuillez entrer au moins 2 caractères alphabétiques pour votre prénom.";
+  const emailError = "Veuillez entrer une adresse mail valide.";
+  const dateError = "Veuillez entrer une date de naissance valide.";
+  const checkError = "Vous devez choisir une option.";
+  const conditionError = "Vous devez acceptez les termes et conditions pour pouvoir vous inscrire.";
+  const tournamentError = "Merci d'entrer une valeur valide";
+
+//établissements des valeur pour chaques entrée du formulaire
+  Name.Valid = false;
+  Surname.Valid = false;
+  Email.Valid = false;
+  Birth.Valid = false;
+  Tournament.Valid = false;
+  Check.Valid = false;
+  Condition.Valid = true;
+
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -28,4 +54,135 @@ function launchModal() {
 function closemodal() {
   modalbg.style.display = "none";
 }
+
+
+//fonction pour afficher les message d'erreur
+function inputError(text, el, display) {
+  document.querySelector(`.${el}`).style.display = "block";
+  document.querySelector(`.${el}`).innerText = text;
+}
+
+//fonction pour ne plus afficher les message d'erreur
+function noInputError(text, el, display) {
+  document.querySelector(`.${el}`).style.display = "none";
+}
+
+//bordure rouge lors d'une erreur d'input
+function errorBorder(el) {
+  el.style.border = "1px solid red";
+}
+
+//bordure verte lorsque tout va bien
+function noErrorBorder(el) {
+  el.style.border = "2px solid green";
+}
+
+//regex pour les vérifications de nom/prénom
+function chart2Min(value) {
+  return /^[a-zA-Z]{2,}$/.test(value);
+}
+
+//vérification du nom
+Name.addEventListener("input", function () {
+  if (!(chart2Min(Name.value)) || Name === '') {
+      errorBorder(Name);
+      inputError(nameError, "error-first", "block");
+      Name.Valid = false;
+    } else {
+      noInputError(nameError, "error-first", "none");
+      noErrorBorder(Name);
+      Name.Valid = true;
+    }
+  });
+
+//vérification du prénom
+  Surname.addEventListener("input", function () {
+    if (!(chart2Min(Surname.value)) || Surname === '') {
+      errorBorder(Surname);
+      inputError(surnameError, "error-last", "block");
+      Surname.Valid = false;
+    } else {
+      noInputError(surnameError, "error-last", "none");
+      noErrorBorder(Surname);
+      Surname.Valid = true;
+    }
+  });
+
+//vérification de l'email
+  Email.addEventListener("input", function (e) {
+    //vérification active seulent après que l'utilisateur ai cliqué sur un autre champ
+    if (!(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/.test(e.target.value)) || e.target.value === '') {
+      errorBorder(Email);
+      inputError(emailError, "error-email", "block");
+      Email.Valid = false;
+    } else {
+      noInputError(emailError, "error-email", "none");
+      noErrorBorder(Email);
+      Email.Valid = true;
+    }
+  });
+
+
+  Birth.addEventListener("change", function (e) {
+    //get the actual date
+    let now = new Date();
+    let date = e.target.value;
+    //parse the two date (get the date but in seconds)
+    let nowParse = Date.parse(now);
+    let dateParse = Date.parse(e.target.value);
+    //if date is empty or user input date is superior than the actual date
+    if (date == null || dateParse > nowParse) {
+      errorBorder(Birth);
+      inputError(dateError, "error-birth", "block");
+      Birth.Valid = false;
+    } else {
+      noInputError(dateError, "error-birth", "none");
+      noErrorBorder(Birth);
+      Birth.Valid = true;
+    }
+  });
+
+//vérification du nombre de tournois participé 
+  Tournament.addEventListener("input", function (e) {
+    if (e.target.value == null || e.target.value == "" || e.target.value < 1 ) {
+      errorBorder(Tournament);
+      inputError(tournamentError, "error-tournament", "block");
+      Tournament.Valid = false;
+    } else {
+      noInputError(tournamentError, "error-tournament", "none");
+      noErrorBorder(Tournament);
+      Tournament.Valid = true;
+    }
+  });
+
+
+  for (let i = 0; i < Check.length; i++) {
+    //listen to every change to the checkbox
+    Check[i].addEventListener("change", () => {
+      //if any is checked than pass true to global variables
+      if (Check[i].checked == true) {
+        Check.Valid = true;
+        noInputError(checkError, "error-check", "none");
+      } else {
+        Check.Valid = false;
+        inputError(checkError, "error-check", "block");
+      }
+    });
+  }
+
+
+//vérification du cochage de la case "conditions d'utilisation"
+  Condition.addEventListener("change", function (e) {
+    if (!e.currentTarget.checked) {
+      inputError(conditionError, "error-condition", "block");
+      Condition.Valid = false;
+    } 
+    else {
+      noInputError(conditionError, "error-condition", "none");
+      Condition.Valid = true;
+    }
+  });
+
+
+
 
