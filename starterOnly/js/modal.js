@@ -22,8 +22,8 @@ function editNav() {
 
   const validationModal = document.querySelector(".validation-modal");
   const closeValidationModal = document.querySelector(".btn-close");
-  const closeValidBtn = document.querySelector(".valid-close");
-
+  const closeValidationBtn = document.querySelector(".valid-close");
+  
 
 //messages d'erreur
   const nameError = "Veuillez entrer au moins 2 caractères alphabétiques pour votre nom.";
@@ -227,7 +227,7 @@ Name.addEventListener("input", function () {
         validationModal.style.display = "none";
         closemodal();
       });
-      closeValidBtn.addEventListener("click", function (e){
+      closeValidationBtn.addEventListener("click", function (e){
         validationModal.style.display = "none";
         closemodal();
       });
