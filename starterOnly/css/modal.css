@@ -355,12 +355,16 @@ input[data-error]::after {
   width: 536px;
   height: 930px;
 }
+
 .validation-modal .content p {
   display: flex;
   align-items: center;
-  height: calc(92%);
+  height: calc(50%);
   font-size: 36px;
   text-align: center;
+}
+.content-validation{
+  margin:1% auto;
 }
 
 /* custom select styles */
@@ -435,7 +439,7 @@ input[data-error]::after {
   font-size: 16px;
 }
 .hero-section {
-  min-height: 93vh;
+  height: 69vh;
   border-radius: 10px;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
