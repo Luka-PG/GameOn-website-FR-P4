@@ -59,26 +59,6 @@ function launchModal() {
 function closemodal() {
   modalbg.style.display = "none";
 }
-
-//clear field
-function clearField (element) {
-  element.valid = false;
-  element.value = '';
-}
- 
-// clear form 
-function clearForm () {
-  clearField(Name);
-  clearField(Surname);
-  clearField(Email);
-  clearField(Birth);
-  clearField(Tournament);
-  Check.valid = false;
-  document.querySelectorAll("input[name='location']:checked")[0].checked = false;
-  formContent.style.display="block";
-  modalSuccess.style.display="none";
-  closemodal();
-}
  
 //fonction pour afficher les message d'erreur
 function inputError(text, el, display) {
@@ -206,7 +186,7 @@ Name.addEventListener("input", function () {
     }
   });
 
-
+//fonction pour confirmer ou non le formulaire
   modalbg.addEventListener("submit", validate);
   function validate(e) {
     //vérification des variables
