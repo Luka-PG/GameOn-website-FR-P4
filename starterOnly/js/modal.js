@@ -19,11 +19,10 @@ function editNav() {
   const Tournament = document.getElementById("quantity");
   const Check = document.querySelectorAll('input[name="location"]');
   const Condition = document.getElementById("checkbox1");
-
   const validationModal = document.querySelector(".validation-modal");
   const closeValidationModal = document.querySelector(".btn-close");
   const closeValidationBtn = document.querySelector(".valid-close");
-  
+  const formReserve = document.getElementById("form-reserve")
 
 //messages d'erreur
   const nameError = "Veuillez entrer au moins 2 caractères alphabétiques pour votre nom.";
@@ -48,7 +47,7 @@ function editNav() {
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
 // event de fermeture de modal
-modalClose.forEach((btn) => btn.addEventListener("click", closemodal));
+modalClose.forEach((btn) => btn.addEventListener("click", closeModal));
 
 //fonction d'ouverture de modal
 function launchModal() {
@@ -56,7 +55,7 @@ function launchModal() {
 }
 
 //fonction de fermeture de modal
-function closemodal() {
+function closeModal() {
   modalbg.style.display = "none";
 }
  
@@ -187,8 +186,9 @@ Name.addEventListener("input", function () {
   });
 
 //fonction pour confirmer ou non le formulaire
-  modalbg.addEventListener("submit", validate);
-  function validate(e) {
+
+  function validate() {
+    
     //vérification des variables
     if (
       Name.Valid &&
@@ -199,22 +199,23 @@ Name.addEventListener("input", function () {
       Check.Valid &&
       Condition.Valid
     ) {
-      e.preventDefault();
+    //  e.preventDefault();
       //ouverture du modal de confirmation
-      closemodal();
+      closeModal();
       validationModal.style.display = "block";
       closeValidationModal.addEventListener("click", function (e){
         validationModal.style.display = "none";
-        closemodal();
+        closeModal();
+        formReserve.reset();
       });
       closeValidationBtn.addEventListener("click", function (e){
         validationModal.style.display = "none";
-        closemodal();
+        closeModal();
       });
     }
     //si il y à erreur, affichage de messages d'erreur
     else {
-      e.preventDefault();
+   //   e.preventDefault();
       if (!Name.Valid) {
         errorBorder(Name);
         inputError(nameError, "error-first", "block");
