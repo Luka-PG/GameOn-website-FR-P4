@@ -186,8 +186,8 @@ Name.addEventListener("input", function () {
   });
 
 //fonction pour confirmer ou non le formulaire
-
-  function validate() {
+modalbg.addEventListener("submit", validate);
+  function validate(e) {
     
     //vérification des variables
     if (
@@ -199,7 +199,7 @@ Name.addEventListener("input", function () {
       Check.Valid &&
       Condition.Valid
     ) {
-    //  e.preventDefault();
+    e.preventDefault();
       //ouverture du modal de confirmation
       closeModal();
       validationModal.style.display = "block";
@@ -207,6 +207,13 @@ Name.addEventListener("input", function () {
         validationModal.style.display = "none";
         closeModal();
         formReserve.reset();
+        Name.Valid = false;
+        Surname.Valid = false;
+        Email.Valid = false;
+        Birth.Valid = false;
+        Tournament.Valid = false;
+        Check.Valid = false;
+        Condition.Valid = true;
       });
       closeValidationBtn.addEventListener("click", function (e){
         validationModal.style.display = "none";
@@ -215,7 +222,7 @@ Name.addEventListener("input", function () {
     }
     //si il y à erreur, affichage de messages d'erreur
     else {
-   //   e.preventDefault();
+    e.preventDefault();
       if (!Name.Valid) {
         errorBorder(Name);
         inputError(nameError, "error-first", "block");
